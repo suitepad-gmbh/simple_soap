@@ -1,0 +1,21 @@
+<SOAP-ENV:Envelope
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <SOAP-ENV:Body>
+    <m:GetEndorsingBoarder xmlns:m="http://namespaces.snowboard-info.com">
+      <manufacturer>K2</manufacturer>
+      <model>Fatbob</model>
+      <contact>
+        <email>k2@example.com</email>
+        <phone>
+          <prefix>49</prefix>
+          <type>mobile</type>
+          <number>12345678</number>
+        </phone>
+      </contact>
+      <manufacturer>K1</manufacturer>
+      <manufacturer>K0</manufacturer>
+      <model>Slimbob</model>
+    </m:GetEndorsingBoarder>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

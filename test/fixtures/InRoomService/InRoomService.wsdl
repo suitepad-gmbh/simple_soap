@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://www.asahotel.com/inroomservice" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.asahotel.com/inroomservice" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.asahotel.com/inroomservice">
+      <xsd:simpleType name="PayTvOption">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="none"/>
+          <xsd:enumeration value="all"/>
+          <xsd:enumeration value="noAdults"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RoomStatusCode">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="clean"/>
+          <xsd:enumeration value="dirty"/>
+          <xsd:enumeration value="notAvailable"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:simpleType name="RoomPresenceCode">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="none"/>
+          <xsd:enumeration value="guest"/>
+          <xsd:enumeration value="doNotDisturb"/>
+          <xsd:enumeration value="servicePersonnel"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="RoomStatus">
+        <xsd:sequence>
+          <xsd:element name="room" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="checkedIn" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="status" type="tns:RoomStatusCode"/>
+          <xsd:element minOccurs="0" name="presence" type="tns:RoomPresenceCode"/>
+          <xsd:element minOccurs="0" name="wakeUpTime" type="xsd:time"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="UserInfo">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="userCode" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="userName" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="clientName" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Guest">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="lastName" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="firstName" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="title" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="language" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="dateOfBirth" type="xsd:date"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:simpleType name="KeyType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="new"/>
+          <xsd:enumeration value="copy"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="KeyInfo">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="keyType" type="tns:KeyType"/>
+          <xsd:element minOccurs="0" name="keyNumber" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="keyCount" type="xsd:int"/>
+          <xsd:element minOccurs="0" name="keyID" type="xsd:string"/>
+          <xsd:element maxOccurs="4" name="room" type="xsd:int"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="publicArea" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="guest" type="tns:Guest"/>
+          <xsd:element minOccurs="0" name="arrival" type="xsd:dateTime"/>
+          <xsd:element minOccurs="0" name="departure" type="xsd:dateTime"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="Result">
+        <xsd:sequence>
+          <xsd:element name="success" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="error" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="CheckInResult">
+        <xsd:sequence>
+          <xsd:element name="success" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="error" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="loginUser" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="loginPwd" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="RoomStatusResult">
+        <xsd:sequence>
+          <xsd:element name="success" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="error" type="xsd:string"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="roomStatus" type="tns:RoomStatus"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="KeyResult">
+        <xsd:sequence>
+          <xsd:element name="success" type="xsd:boolean"/>
+          <xsd:element minOccurs="0" name="error" type="xsd:string"/>
+          <xsd:element minOccurs="0" name="keyInfo" type="tns:KeyInfo"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="getVersion">
+        <xsd:complexType/>
+      </xsd:element>
+      <xsd:element name="getVersionResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="getVersionResult" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="checkIn">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="room" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="oldRoom" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="arrival" type="xsd:date"/>
+            <xsd:element minOccurs="0" name="departure" type="xsd:date"/>
+            <xsd:element minOccurs="0" name="guest" type="tns:Guest"/>
+            <xsd:element minOccurs="0" name="pin" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="chargeable" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="viewBill" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="payTv" type="tns:PayTvOption"/>
+            <xsd:element minOccurs="0" name="internet" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="minibar" type="xsd:boolean"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="checkInResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="checkInResult" type="tns:CheckInResult"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="checkOut">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="room" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="newRoom" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="checkOutResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="checkOutResult" type="tns:Result"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="stayUpdate">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="room" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="departure" type="xsd:date"/>
+            <xsd:element minOccurs="0" name="guest" type="tns:Guest"/>
+            <xsd:element minOccurs="0" name="pin" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="chargeable" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="viewBill" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="payTv" type="tns:PayTvOption"/>
+            <xsd:element minOccurs="0" name="internet" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="minibar" type="xsd:boolean"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="stayUpdateResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="stayUpdateResult" type="tns:Result"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="wakeUpCall">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="room" type="xsd:int"/>
+            <xsd:element name="time" type="xsd:time"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="wakeUpCallResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="wakeUpCallResult" type="tns:Result"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="message">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="room" type="xsd:int"/>
+            <xsd:element minOccurs="0" name="lamp" type="xsd:boolean"/>
+            <xsd:element minOccurs="0" name="text" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="messageResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="messageResult" type="tns:Result"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getRoomStatus">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element minOccurs="0" name="room" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="getRoomStatusResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="getRoomStatusResult" type="tns:RoomStatusResult"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="createKey">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="keyCoder" type="xsd:string"/>
+            <xsd:element name="keyInfo" type="tns:KeyInfo"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="createKeyResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="createKeyResult" type="tns:KeyResult"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteKey">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="keyCoder" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="room" type="xsd:int"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteKeyResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="deleteKeyResult" type="tns:KeyResult"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="readKey">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userInfo" type="tns:UserInfo"/>
+            <xsd:element name="keyCoder" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="waitForKey" type="xsd:boolean"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="readKeyResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="readKeyResult" type="tns:KeyResult"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="checkInOutput">
+    <wsdl:part name="parameters" element="tns:checkInResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="messageOutput">
+    <wsdl:part name="parameters" element="tns:messageResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="readKeyOutput">
+    <wsdl:part name="parameters" element="tns:readKeyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteKeyInput">
+    <wsdl:part name="parameters" element="tns:deleteKey">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomStatusOutput">
+    <wsdl:part name="parameters" element="tns:getRoomStatusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createKeyInput">
+    <wsdl:part name="parameters" element="tns:createKey">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkOutOutput">
+    <wsdl:part name="parameters" element="tns:checkOutResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getRoomStatusInput">
+    <wsdl:part name="parameters" element="tns:getRoomStatus">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="wakeUpCallOutput">
+    <wsdl:part name="parameters" element="tns:wakeUpCallResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="wakeUpCallInput">
+    <wsdl:part name="parameters" element="tns:wakeUpCall">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionInput">
+    <wsdl:part name="parameters" element="tns:getVersion">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="stayUpdateOutput">
+    <wsdl:part name="parameters" element="tns:stayUpdateResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="deleteKeyOutput">
+    <wsdl:part name="parameters" element="tns:deleteKeyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createKeyOutput">
+    <wsdl:part name="parameters" element="tns:createKeyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="readKeyInput">
+    <wsdl:part name="parameters" element="tns:readKey">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="messageInput">
+    <wsdl:part name="parameters" element="tns:message">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVersionOutput">
+    <wsdl:part name="parameters" element="tns:getVersionResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkInInput">
+    <wsdl:part name="parameters" element="tns:checkIn">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkOutInput">
+    <wsdl:part name="parameters" element="tns:checkOut">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="stayUpdateInput">
+    <wsdl:part name="parameters" element="tns:stayUpdate">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="InRoomServicePortType">
+    <wsdl:operation name="getVersion">
+      <wsdl:input message="tns:getVersionInput">
+      </wsdl:input>
+      <wsdl:output message="tns:getVersionOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkIn">
+      <wsdl:input message="tns:checkInInput">
+      </wsdl:input>
+      <wsdl:output message="tns:checkInOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkOut">
+      <wsdl:input message="tns:checkOutInput">
+      </wsdl:input>
+      <wsdl:output message="tns:checkOutOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stayUpdate">
+      <wsdl:input message="tns:stayUpdateInput">
+      </wsdl:input>
+      <wsdl:output message="tns:stayUpdateOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wakeUpCall">
+      <wsdl:input message="tns:wakeUpCallInput">
+      </wsdl:input>
+      <wsdl:output message="tns:wakeUpCallOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="message">
+      <wsdl:input message="tns:messageInput">
+      </wsdl:input>
+      <wsdl:output message="tns:messageOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomStatus">
+      <wsdl:input message="tns:getRoomStatusInput">
+      </wsdl:input>
+      <wsdl:output message="tns:getRoomStatusOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createKey">
+      <wsdl:input message="tns:createKeyInput">
+      </wsdl:input>
+      <wsdl:output message="tns:createKeyOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteKey">
+      <wsdl:input message="tns:deleteKeyInput">
+      </wsdl:input>
+      <wsdl:output message="tns:deleteKeyOutput">
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="readKey">
+      <wsdl:input message="tns:readKeyInput">
+      </wsdl:input>
+      <wsdl:output message="tns:readKeyOutput">
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="InRoomServiceSoapBinding" type="tns:InRoomServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getVersion">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/getVersion" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkIn">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/checkIn" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="checkOut">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/checkOut" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="stayUpdate">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/stayUpdate" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="wakeUpCall">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/wakeUpCall" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="message">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/message" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getRoomStatus">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/getRoomStatus" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createKey">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/createKey" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="deleteKey">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/deleteKey" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="readKey">
+      <soap:operation soapAction="http://www.asahotel.com/inroomservice/readKey" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="InRoomServiceService">
+    <wsdl:port name="InRoomServicePort" binding="tns:InRoomServiceSoapBinding">
+      <soap:address location="http://localhost:8050/ws/inroomservice"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Header/>
+  <SOAP-ENV:Body>
+    <checkIn xmlns="http://www.asahotel.com/inroomservice">
+      <userInfo>
+        <userName>Admin</userName>
+        <clientName>ie8win7</clientName>
+      </userInfo>
+      <room>107</room>
+      <guest>
+        <lastName>Ackermann</lastName>
+        <firstName>Ursula</firstName>
+        <title>Frau</title>
+        <language>de</language>
+      </guest>
+      <viewBill>1</viewBill>
+    </checkIn>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
