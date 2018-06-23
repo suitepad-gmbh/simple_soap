@@ -16,15 +16,32 @@ defmodule SimpleSoap.Wsdl.Schema.Element do
   end
 
   def type_def(%Wsdl{xml_schema: xml_schema} = wsdl, node) do
-    elements = type_elements(wsdl, node)
+    type_ref = Xml.get_attr(node, "type")
 
-    case SweetXml.xpath(
-           node,
-           ~x"local-name(./xsd:complexType/*)"s |> add_namespace("xsd", xml_schema)
-         ) do
-      "sequence" -> %Type.Sequence{elements: elements}
-      "all" -> %Type.All{elements: elements}
-      val -> Logger.error("Unknown node type: #{val}")
+    cond do
+      type_ref != "" ->
+        %Type.Reference{type: Wsdl.Helper.resolve_type(type_ref, node)}
+
+      true ->
+        elements = type_elements(wsdl, node)
+
+        case SweetXml.xpath(
+               node,
+               ~x"local-name(./xsd:complexType/*)"s |> add_namespace("xsd", xml_schema)
+             ) do
+          "sequence" ->
+            %Type.Sequence{elements: elements}
+
+          "all" ->
+            %Type.All{elements: elements}
+
+          "simpleContent" ->
+            %Type.SimpleContent{elements: elements}
+
+          val ->
+            Logger.error("Unknown node type: #{val}")
+            nil
+        end
     end
   end
 

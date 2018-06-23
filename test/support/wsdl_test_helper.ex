@@ -21,4 +21,14 @@ defmodule WsdlTestHelper do
 
     struct(Wsdl, [{:doc, doc} | opts])
   end
+
+  def create_wsdl(file, opts \\ []) do
+    File.read!("test/fixtures/#{file}")
+    |> Wsdl.new(opts)
+  end
+
+  def parse_request(%Wsdl{} = wsdl, port_type, file) do
+    data = File.read!("test/fixtures/#{file}")
+    Wsdl.parse_request(wsdl, port_type, data)
+  end
 end

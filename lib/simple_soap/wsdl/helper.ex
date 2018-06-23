@@ -51,6 +51,9 @@ defmodule SimpleSoap.Wsdl.Helper do
       {ns, _type} ->
         new_type = custom_type(List.keyfind(types.schemas, ns, 0), type, wsdl)
         typed_value(node, new_type, wsdl)
+
+      nil ->
+        nil
     end
   end
 

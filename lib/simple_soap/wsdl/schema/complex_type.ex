@@ -16,12 +16,21 @@ defmodule SimpleSoap.Wsdl.Schema.ComplexType do
   end
 
   def type_def(%Wsdl{} = wsdl, node) do
-    elements = type_elements(wsdl, node)
-
     case xpath(node, ~x"local-name(./*)"s) do
-      "sequence" -> %Type.Sequence{elements: elements}
-      "all" -> %Type.All{elements: elements}
-      val -> Logger.error("Unknown node type: #{val}")
+      "sequence" ->
+        elements = type_elements(wsdl, node)
+        %Type.Sequence{elements: elements}
+
+      "all" ->
+        elements = type_elements(wsdl, node)
+        %Type.All{elements: elements}
+
+      "simpleContent" ->
+        %Type.SimpleContent{elements: []}
+
+      val ->
+        Logger.error("Unknown node type: #{val}")
+        nil
     end
   end
 

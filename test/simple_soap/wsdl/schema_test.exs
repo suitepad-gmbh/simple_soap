@@ -44,6 +44,7 @@ defmodule SimpleSoap.Wsdl.SchemaTest do
 
       assert %Schema{items: items} = schema
       assert {:Phone, %Schema.Type.Sequence{}} = List.keyfind(items, :Phone, 0)
+      assert {:Telephone, %Schema.Type.Reference{}} = List.keyfind(items, :Telephone, 0)
       assert {:Contact, %Schema.Type.Sequence{}} = List.keyfind(items, :Contact, 0)
       assert {:Person, %Schema.Type.All{}} = List.keyfind(items, :Person, 0)
 

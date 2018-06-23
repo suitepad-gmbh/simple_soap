@@ -18,6 +18,7 @@
           <xsd:enumeration value="fax"/>
         </xsd:restriction>
       </xsd:simpleType>
+      <xsd:element name="Telephone" type="o:Phone"/>
       <xsd:element name="Phone">
         <xsd:complexType>
           <xsd:sequence>
@@ -36,7 +37,7 @@
       <xsd:element name="Contact">
         <xsd:complexType>
           <xsd:sequence>
-            <xsd:element name="person" type="Person"/>
+            <xsd:element name="person" type="o:Person"/>
             <xsd:element name="email" type="string"/>
             <xsd:element name="phone" type="Phone"/>
           </xsd:sequence>

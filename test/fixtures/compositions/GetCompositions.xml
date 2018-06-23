@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:alanbushtrust-org-uk:soap.methods">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:GetCompositions>
+         <urn:category-id>foo</urn:category-id>
+      </urn:GetCompositions>
+   </soapenv:Body>
+</soapenv:Envelope>
