@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="EndorsementSearch" targetNamespace="http://example.com" xmlns:o="http://example.com/schemas/objects" xmlns:m="http://example.com/schemas/methods" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://example.com/schemas/methods" xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+      <xsd:element name="GetContactsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="5" ref="o:Contact" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+    <xsd:schema targetNamespace="http://example.com/schemas/objects" xmlns:xsd="http://www.w3.org/1999/XMLSchema">
+      <xsd:simpleType name="PhoneType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="phone"/>
+          <xsd:enumeration value="mobile"/>
+          <xsd:enumeration value="fax"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="Phone">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="prefix" type="int"/>
+            <xsd:element name="type" type="o:PhoneType"/>
+            <xsd:element name="number" type="string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="Person">
+        <xsd:all>
+          <xsd:element name="firstname" type="xsd:string"/>
+          <xsd:element name="lastname" type="xsd:string"/>
+        </xsd:all>
+      </xsd:complexType>
+      <xsd:element name="Contact">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="person" type="Person"/>
+            <xsd:element name="email" type="string"/>
+            <xsd:element name="phone" type="Phone"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+</wsdl:definitions>

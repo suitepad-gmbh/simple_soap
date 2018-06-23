@@ -17,7 +17,7 @@ defmodule SimpleSoap.Wsdl.PortType.Operation do
     %__MODULE__{name: name, input: input, output: output, fault: fault}
   end
 
-  defp message_for(operation_node, type, %Wsdl{xml_schema: xml_schema} = wsdl)
+  defp message_for(operation_node, type, %Wsdl{xml_schema: xml_schema})
        when type in [:input, :output, :fault] do
     case xpath(
            operation_node,

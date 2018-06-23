@@ -1,16 +1,14 @@
 defmodule SimpleSoap.Wsdl.Schema.Type.Sequence do
   import SweetXml
-  alias SimpleSoap.Xml
   alias SimpleSoap.Wsdl
-  alias SimpleSoap.Wsdl.Schema
+  alias SimpleSoap.Wsdl.Helper
   alias SimpleSoap.Wsdl.Schema.Type.Sequence
+  alias SimpleSoap.Xml
 
   defstruct elements: []
 
   def parse_value(node, %Sequence{elements: elements}, %Wsdl{} = wsdl) do
-    index = 0
     nodes = xpath(node, ~x"./*"l)
-
     make_list(elements, nodes, 0, [], wsdl)
   end
 
@@ -56,7 +54,7 @@ defmodule SimpleSoap.Wsdl.Schema.Type.Sequence do
         {index, result}
 
       true ->
-        value = Schema.resolve_with_type(value_node, type, wsdl)
+        value = Helper.typed_value(value_node, type, wsdl)
         new_result = Map.put(result, key, value)
         {index + 1, new_result}
     end

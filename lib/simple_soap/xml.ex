@@ -15,7 +15,11 @@ defmodule SimpleSoap.Xml do
         end).()
   end
 
-  def namespace_uri(node), do: String.to_atom(xpath(node, ~x"namespace-uri(.)"s))
+  def namespace_uri(node) do
+    node
+    |> elem(2)
+    |> elem(0)
+  end
 
   def get_attr(node, name, opts \\ [])
   def get_attr(node, name, cast_to: :atom), do: String.to_atom(get_attr(node, name))

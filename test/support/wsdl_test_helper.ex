@@ -13,4 +13,12 @@ defmodule WsdlTestHelper do
     doc = parse(data, namespace_conformant: true)
     %Wsdl{doc: doc, xml_schema: "http://www.w3.org/1999/XMLSchema"}
   end
+
+  def load_wsdl(file, opts \\ []) do
+    doc =
+      File.read!("test/fixtures/#{file}")
+      |> parse(namespace_conformant: true)
+
+    struct(Wsdl, [{:doc, doc} | opts])
+  end
 end

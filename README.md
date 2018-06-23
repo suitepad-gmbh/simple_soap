@@ -31,7 +31,7 @@ The last command will return an operation struct, containing information about
 the SOAP operation to execute, and the parameters given with the request.
 
 ```elixir
-%SimpleSoap.Operation{
+%SimpleSoap.Request{
   message: %SimpleSoap.Wsdl.Message{
     name: :checkInInput,
     parts: [

@@ -1,10 +1,11 @@
 defmodule SimpleSoap.Wsdl do
   alias SimpleSoap.Wsdl
   alias SimpleSoap.Wsdl.Schema
+  alias SimpleSoap.Wsdl.Types
   alias SimpleSoap.Error.NotImplemented
 
   defstruct doc: nil,
-            types: %{},
+            types: nil,
             messages: %{},
             port_types: %{},
             xml_schema: :"http://www.w3.org/1999/XMLSchema"
@@ -27,7 +28,7 @@ defmodule SimpleSoap.Wsdl do
   request, parsed into the designated types.
   """
   def parse_request(%Wsdl{} = wsdl, port_type, request_body) do
-    SimpleSoap.Operation.new(wsdl, port_type, request_body)
+    SimpleSoap.Request.new(wsdl, port_type, request_body)
   end
 
   # type could be `output` or `fault`
@@ -43,7 +44,7 @@ defmodule SimpleSoap.Wsdl do
   defp update_xml_schema(%__MODULE__{} = wsdl, _), do: wsdl
 
   defp process_types(%__MODULE__{} = wsdl) do
-    types = Schema.type_def(wsdl)
+    types = Types.new(wsdl)
     %__MODULE__{wsdl | types: types}
   end
 

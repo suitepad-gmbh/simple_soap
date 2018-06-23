@@ -1,6 +1,7 @@
-defmodule SimpleSoap.Operation do
+defmodule SimpleSoap.Request do
   import SweetXml
   alias SimpleSoap.Wsdl
+  alias SimpleSoap.Wsdl.Helper
   alias SimpleSoap.Xml
 
   defstruct operation: nil,
@@ -24,7 +25,7 @@ defmodule SimpleSoap.Operation do
     %__MODULE__{message: message, operation: operation, params: params}
   end
 
-  def match_message(node, %Wsdl{messages: messages}) do
+  defp match_message(node, %Wsdl{messages: messages}) do
     request_types =
       xpath(
         node,
@@ -55,7 +56,7 @@ defmodule SimpleSoap.Operation do
     end)
   end
 
-  defp parse_message(%Wsdl.Message{parts: parts}, body, %Wsdl{types: types} = wsdl) do
+  defp parse_message(%Wsdl.Message{parts: parts}, body, %Wsdl{} = wsdl) do
     xpath(
       body,
       ~x"./*"l
@@ -66,13 +67,14 @@ defmodule SimpleSoap.Operation do
         Xml.node_local_name(node)
         |> String.to_atom()
 
+      temp_ns = Xml.namespace_uri(node)
+
       %Wsdl.Message.Part{name: name} =
         Enum.find(parts, fn %Wsdl.Message.Part{def: {_ns, type_name}} ->
           temp_name == type_name
         end)
 
-      type = Map.get(types, temp_name)
-      value = type.__struct__.parse_value(node, type, wsdl)
+      value = Helper.typed_value(node, {temp_ns, temp_name}, wsdl)
       Map.put(acc, name, value)
     end)
   end
