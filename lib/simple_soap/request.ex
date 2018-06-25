@@ -50,26 +50,6 @@ defmodule SimpleSoap.Request do
     Enum.find(messages, fn %Message{name: n} -> name == n end)
   end
 
-  #
-  # defp match_message(node, %Wsdl{messages: messages}) do
-  #   request_types =
-  #     xpath(
-  #       node,
-  #       ~x"./*"l
-  #       |> add_namespace("env", "http://schemas.xmlsoap.org/soap/envelope/")
-  #     )
-  #     |> Enum.map(fn item -> {Xml.namespace_uri(item), Xml.node_local_name(item)} end)
-  #     |> Enum.map(fn item -> elem(item, 1) end)
-  #     |> Enum.map(&String.to_atom/1)
-  #
-  #   Enum.find(messages, fn %Wsdl.Message{parts: parts} ->
-  #     request_types ==
-  #       Enum.map(parts, fn %Wsdl.Message.Part{def: {_ns, type_name}} ->
-  #         type_name
-  #       end)
-  #   end)
-  # end
-
   defp find_operation(port_type_name, node, %Wsdl{port_types: port_types}) do
     %Wsdl.PortType{operations: operations} =
       Enum.find(port_types, fn %Wsdl.PortType{name: name} -> name == port_type_name end)

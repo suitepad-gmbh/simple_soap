@@ -1,9 +1,7 @@
 defmodule Example.OmsTest do
   use ExUnit.Case
 
-  alias SimpleSoap.Request
   alias SimpleSoap.Wsdl
-  alias SimpleSoap.Wsdl.PortType.Operation
   import WsdlTestHelper
 
   setup do

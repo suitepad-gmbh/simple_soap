@@ -6,7 +6,7 @@ defmodule Example.SnowboardTest do
   import WsdlTestHelper
 
   test "used types are detected properly" do
-    assert %Wsdl{types: types} = wsdl = create_wsdl("snowboard/example.wsdl")
+    assert %Wsdl{types: types} = create_wsdl("snowboard/example.wsdl")
 
     schema = types.schemas[:"http://namespaces.snowboard-info.com"]
     assert %Wsdl.Schema{items: items} = schema

@@ -7,7 +7,6 @@ defmodule Example.CompositionTest do
 
   test "used types are parsed properly" do
     assert %Wsdl{types: types} =
-             wsdl =
              create_wsdl(
                "compositions/compositions.wsdl",
                xml_schema: :"http://www.w3.org/2001/XMLSchema"
