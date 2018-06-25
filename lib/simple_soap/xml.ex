@@ -1,5 +1,6 @@
 defmodule SimpleSoap.Xml do
   import SweetXml
+  alias SimpleSoap.Wsdl
 
   def namespace_uri_for_prefix(node, prefix) do
     prefix = String.to_charlist(prefix)
@@ -18,7 +19,17 @@ defmodule SimpleSoap.Xml do
   def namespace_uri(node) do
     node
     |> elem(2)
-    |> elem(0)
+    |> (fn
+          val when is_tuple(val) -> elem(val, 0)
+          _ -> nil
+        end).()
+  end
+
+  def target_namespace(node, %Wsdl{target_namespace: target_namespace}) do
+    # TODO: figure out how to retrieve the targetNamespace attribute from the
+    # closest parent node and return it. For now we use the targetNamespace from
+    # the root element.
+    target_namespace
   end
 
   def get_attr(node, name, opts \\ [])

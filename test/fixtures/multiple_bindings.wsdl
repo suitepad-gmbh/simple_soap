@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions targetNamespace="http://example.com/methods"
+				xmlns:s0="http://example.com/methods"
+				xmlns:s1="http://example.com/objects"
+				xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+				xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <binding name="FooBinding" type="s0:FooPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="AAction">
+      <soap:operation soapAction="http://example.com/actions/AAction" style="document" />
+    </operation>
+    <operation name="BAction">
+      <soap:operation soapAction="http://example.com/actions/BAction" style="document" />
+    </operation>
+  </binding>
+  <binding name="BarBinding" type="s0:BarPortType">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document" />
+    <operation name="XAction">
+      <soap:operation soapAction="http://example.com/actions/XAction" style="document" />
+    </operation>
+    <operation name="YAction">
+      <soap:operation soapAction="http://example.com/actions/YAction" style="document" />
+    </operation>
+  </binding>
+  <service name="Example">
+    <port name="FooPort" binding="s0:FooBinding">
+      <soap:address location="http://example.com/foo" />
+    </port>
+    <port name="BarPort" binding="s0:BarBinding">
+      <soap:address location="http://example.com/bar" />
+    </port>
+  </service>
+</definitions>

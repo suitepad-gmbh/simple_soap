@@ -17,7 +17,7 @@ defmodule SimpleSoap.Wsdl.PortTypeTest do
     assert [
              %PortType{
                name: :glossaryTerms,
-               namespace: :"http://schemas.xmlsoap.org/wsdl/",
+               namespace: :"http://example.com/targetNamespace",
                operations: [
                  %PortType.Operation{
                    name: :setTerm,
@@ -27,8 +27,11 @@ defmodule SimpleSoap.Wsdl.PortTypeTest do
                  }
                ]
              }
-           ] =
-             build_wsdl(@default_port_type)
+           ] ==
+             build_wsdl(
+               @default_port_type,
+               target_namespace: :"http://example.com/targetNamespace"
+             )
              |> PortType.read()
   end
 end

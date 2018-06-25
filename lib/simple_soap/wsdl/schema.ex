@@ -9,6 +9,8 @@ defmodule SimpleSoap.Wsdl.Schema do
   defstruct target_namespace: nil,
             items: []
 
+  def new(nil, _), do: []
+
   def new(parent, %Wsdl{xml_schema: xml_schema} = wsdl) do
     xpath(parent, ~x"./xsd:schema"l |> add_namespace("xsd", xml_schema))
     |> Enum.map(&build(&1, wsdl))

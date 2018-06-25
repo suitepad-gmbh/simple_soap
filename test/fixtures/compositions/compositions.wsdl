@@ -174,6 +174,8 @@
   </message>
   <message name="GetCompositionsSoapIn">
     <part name="parameters" element="s0:GetCompositions" />
+    <part name="fooBar" element="s0:GetCompositions" />
+    <part name="baz" type="s1:recording-type" />
   </message>
   <message name="GetCompositionsSoapOut">
     <part name="parameters" element="s0:GetCompositionsResponse" />

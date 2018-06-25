@@ -3,18 +3,22 @@ defmodule SimpleSoap.Wsdl do
   alias SimpleSoap.Wsdl.Schema
   alias SimpleSoap.Wsdl.Types
   alias SimpleSoap.Error.NotImplemented
+  import SweetXml
 
   defstruct doc: nil,
+            target_namespace: nil,
+            bindings: nil,
             types: nil,
             messages: %{},
             port_types: %{},
             xml_schema: :"http://www.w3.org/1999/XMLSchema"
 
   def new(data, opts \\ []) do
-    doc = SweetXml.parse(data, namespace_conformant: true)
+    doc = parse(data, namespace_conformant: true)
 
     %__MODULE__{doc: doc}
     |> update_xml_schema(opts)
+    |> read_target_namespace
     |> process_types
     |> process_messages
     |> process_port_types
@@ -27,8 +31,8 @@ defmodule SimpleSoap.Wsdl do
   {:error, reason}. In the success case, the map contains the values of the
   request, parsed into the designated types.
   """
-  def parse_request(%Wsdl{} = wsdl, port_type, request_body) do
-    SimpleSoap.Request.new(wsdl, port_type, request_body)
+  def parse_request(request_body, binding_name, soap_action, %Wsdl{} = wsdl) do
+    SimpleSoap.Request.new(request_body, binding_name, soap_action, wsdl)
   end
 
   # type could be `output` or `fault`
@@ -43,20 +47,42 @@ defmodule SimpleSoap.Wsdl do
 
   defp update_xml_schema(%__MODULE__{} = wsdl, _), do: wsdl
 
+  defp read_target_namespace(%__MODULE__{doc: doc} = wsdl) do
+    target_namespace =
+      xpath(
+        doc,
+        ~x"/wsdl:definitions/@targetNamespace"s
+        |> add_namespace("wsdl", "http://schemas.xmlsoap.org/wsdl/")
+      )
+      |> String.to_atom()
+
+    %__MODULE__{wsdl | target_namespace: target_namespace}
+  end
+
   defp process_types(%__MODULE__{} = wsdl) do
     types = Types.new(wsdl)
     %__MODULE__{wsdl | types: types}
   end
 
-  defp process_messages(%__MODULE{} = wsdl) do
+  defp process_messages(%__MODULE__{} = wsdl) do
     messages = Wsdl.Message.read(wsdl)
     %__MODULE__{wsdl | messages: messages}
   end
 
-  defp process_port_types(%__MODULE{} = wsdl) do
+  defp process_port_types(%__MODULE__{} = wsdl) do
     port_types = Wsdl.PortType.read(wsdl)
     %__MODULE__{wsdl | port_types: port_types}
   end
 
-  defp process_bindings(%__MODULE{} = wsdl), do: wsdl
+  defp process_bindings(%__MODULE__{doc: doc} = wsdl) do
+    bindings =
+      xpath(
+        doc,
+        ~x"/wsdl:definitions/wsdl:binding"l
+        |> add_namespace("wsdl", "http://schemas.xmlsoap.org/wsdl/")
+      )
+      |> Enum.map(&Wsdl.Binding.new(&1, wsdl))
+
+    %__MODULE__{wsdl | bindings: bindings}
+  end
 end

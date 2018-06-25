@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:mes="http://tempuri.org/message/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <mes:OMS_CreateUser soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <firstname xsi:type="xsd:string">John</firstname>
+         <lastname xsi:type="xsd:string">Doe</lastname>
+         <email xsi:type="xsd:string">john.doe@example.com</email>
+         <username xsi:type="xsd:string">johndoe</username>
+         <password1 xsi:type="xsd:string">johnisawesome</password1>
+         <password2 xsi:type="xsd:string">johnisawesome</password2>
+         <country xsi:type="xsd:string">Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch</country>
+         <birthyear xsi:type="xsd:long">1852</birthyear>
+         <birthmonth xsi:type="xsd:long">3</birthmonth>
+         <birthday xsi:type="xsd:long">22</birthday>
+      </mes:OMS_CreateUser>
+   </soapenv:Body>
+</soapenv:Envelope>

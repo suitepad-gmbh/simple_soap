@@ -2,7 +2,7 @@ defmodule WsdlTestHelper do
   import SweetXml
   alias SimpleSoap.Wsdl
 
-  def build_wsdl(definition) do
+  def build_wsdl(definition, opts \\ []) do
     data = """
     <?xml version="1.0" encoding="UTF-8"?>
     <wsdl:definitions name="EndorsementSearch" targetNamespace="http://example.com" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/1999/XMLSchema">
@@ -11,7 +11,7 @@ defmodule WsdlTestHelper do
     """
 
     doc = parse(data, namespace_conformant: true)
-    %Wsdl{doc: doc, xml_schema: "http://www.w3.org/1999/XMLSchema"}
+    struct(Wsdl, [{:doc, doc} | opts])
   end
 
   def load_wsdl(file, opts \\ []) do
@@ -27,8 +27,8 @@ defmodule WsdlTestHelper do
     |> Wsdl.new(opts)
   end
 
-  def parse_request(%Wsdl{} = wsdl, port_type, file) do
-    data = File.read!("test/fixtures/#{file}")
-    Wsdl.parse_request(wsdl, port_type, data)
+  def parse_request(filename, binding_name, soap_action, %Wsdl{} = wsdl) do
+    data = File.read!("test/fixtures/#{filename}")
+    Wsdl.parse_request(data, binding_name, soap_action, wsdl)
   end
 end

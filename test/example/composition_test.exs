@@ -1,21 +1,24 @@
 defmodule Example.CompositionTest do
   use ExUnit.Case
-  alias SimpleSoap.Wsdl
+
   alias SimpleSoap.Request
+  alias SimpleSoap.Wsdl
   import WsdlTestHelper
-  #
-  # test "sdf" do
-  #   assert %Wsdl{types: types} =
-  #            wsdl =
-  #            create_wsdl(
-  #              "compositions/compositions.wsdl",
-  #              xml_schema: :"http://www.w3.org/2001/XMLSchema"
-  #            )
-  #
-  #   schema = types.schemas[:"urn:alanbushtrust-org-uk:schemas.objects"]
-  #   assert %Wsdl.Schema{items: items} = schema
-  #   IO.inspect(items)
-  # end
+
+  test "used types are parsed properly" do
+    assert %Wsdl{types: types} =
+             wsdl =
+             create_wsdl(
+               "compositions/compositions.wsdl",
+               xml_schema: :"http://www.w3.org/2001/XMLSchema"
+             )
+
+    schema = types.schemas[:"urn:alanbushtrust-org-uk:schemas.objects"]
+    assert %Wsdl.Schema{items: items} = schema
+    assert %Wsdl.Schema.Type.Reference{} = items[:categories]
+    assert %Wsdl.Schema.Type.Sequence{} = items[:"categories-type"]
+    assert %Wsdl.Schema.Type.SimpleContent{} = items[:"category-type"]
+  end
 
   test "can make a GetCompositions request" do
     assert %Wsdl{} =
@@ -27,9 +30,10 @@ defmodule Example.CompositionTest do
 
     assert %Request{params: params} =
              parse_request(
-               wsdl,
-               :AlanBushCompositionsPortType,
-               "compositions/GetCompositions.xml"
+               "compositions/GetCompositions.xml",
+               :AlanBushCompositionsSoapBinding,
+               :"urn:alanbushtrust-org-uk:soap.methods.GetCompositions",
+               wsdl
              )
 
     assert %{parameters: [%{"category-id": "foo"}]} == params
@@ -45,9 +49,10 @@ defmodule Example.CompositionTest do
 
     assert %Request{operation: operation} =
              parse_request(
-               wsdl,
-               :AlanBushCompositionsPortType,
-               "compositions/GetCategories.xml"
+               "compositions/GetCategories.xml",
+               :AlanBushCompositionsSoapBinding,
+               :"urn:alanbushtrust-org-uk:soap.methods.GetCategories",
+               wsdl
              )
 
     assert operation.name == :GetCategories

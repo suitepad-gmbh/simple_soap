@@ -16,7 +16,7 @@ defmodule SimpleSoap.Wsdl.Message do
     |> Enum.map(fn node -> build_message(node, wsdl) end)
   end
 
-  defp build_message(message_node, %Wsdl{xml_schema: xml_schema}) do
+  defp build_message(message_node, %Wsdl{xml_schema: xml_schema} = wsdl) do
     message_name = Xml.get_attr(message_node, "name", cast_to: :atom)
 
     parts =

@@ -45,7 +45,7 @@ defmodule SimpleSoap.Wsdl.Schema.Element do
     end
   end
 
-  defp type_elements(%Wsdl{xml_schema: xml_schema}, node) do
+  defp type_elements(%Wsdl{xml_schema: xml_schema} = wsdl, node) do
     SweetXml.xpath(node, ~x"./xsd:complexType/*/xsd:element"l |> add_namespace("xsd", xml_schema))
     |> Enum.map(fn item ->
       name = Xml.get_attr(item, "name", cast_to: :atom)

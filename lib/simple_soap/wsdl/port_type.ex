@@ -17,10 +17,9 @@ defmodule SimpleSoap.Wsdl.PortType do
     |> build_list(wsdl)
   end
 
-  defp build_list(nodes, %Wsdl{} = wsdl) do
+  defp build_list(nodes, %Wsdl{target_namespace: namespace} = wsdl) do
     Enum.map(nodes, fn port_type_node ->
-      {namespace, name} =
-        Wsdl.Helper.resolve_type(Xml.get_attr(port_type_node, "name"), port_type_node)
+      name = Xml.get_attr(port_type_node, "name", cast_to: :atom)
 
       type = build_port_type(port_type_node, wsdl)
       %__MODULE__{type | name: name, namespace: namespace}

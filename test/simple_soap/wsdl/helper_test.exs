@@ -7,7 +7,7 @@ defmodule SimpleSoap.Wsdl.HelperTest do
 
   @xml """
   <?xml version="1.0" encoding="UTF-8"?>
-  <root xmlns="http://example.com/root" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://example.com/message">
+  <root targetNamespace="http://example.com/targetNamespace" xmlns="http://example.com/root" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:ns="http://example.com/message">
     <foo message="ns:newTermValues"/>
     <bar xmlns:ns="http://example.com/test" message="ns:newTermResult"/>
     <baz message="ns:newTermResult"/>
