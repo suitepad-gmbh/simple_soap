@@ -2,6 +2,7 @@ defmodule SimpleSoap.Wsdl.Schema.Element do
   import SweetXml
   alias SimpleSoap.Xml
   alias SimpleSoap.Wsdl
+  alias SimpleSoap.Wsdl.Schema
   alias SimpleSoap.Wsdl.Schema.Type
 
   require Logger
@@ -41,6 +42,26 @@ defmodule SimpleSoap.Wsdl.Schema.Element do
           val ->
             Logger.error("Unknown node type: #{val}")
             nil
+        end
+    end
+  end
+
+  def build_xml(
+        type,
+        data,
+        %Wsdl{xml_schema: xml_schema, types: %SimpleSoap.Wsdl.Types{schemas: schemas}} = wsdl
+      ) do
+    case type do
+      {^xml_schema, _} ->
+        Type.Basic.build_xml(type, data, wsdl)
+
+      {namespace, type_name} ->
+        %Schema{items: items} = schemas[namespace]
+        type = items[type_name]
+
+        case type do
+          {_, _} -> build_xml(type, data, wsdl)
+          _ -> type.__struct__.build_xml(type, data, wsdl)
         end
     end
   end

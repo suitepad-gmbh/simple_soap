@@ -36,8 +36,9 @@ defmodule SimpleSoap.Wsdl do
   end
 
   # type could be `output` or `fault`
-  def build_response(%Wsdl{}, _type \\ :output, %{} = _params) do
-    raise NotImplemented, "Needs to be implemented"
+  def build_response(type, data, %SimpleSoap.Request{} = request, %Wsdl{} = wsdl)
+      when type in [:output, :fault] do
+    SimpleSoap.Response.new(type, data, request, wsdl)
   end
 
   defp update_xml_schema(%__MODULE__{} = wsdl, xml_schema: xml_schema)

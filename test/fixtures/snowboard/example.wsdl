@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- root element wsdl:definitions defines set of related services -->
-<wsdl:definitions name="EndorsementSearch" xmlns:ns="http://namespaces.snowboard-info.com"  targetNamespace="http://www.snowboard-info.com/EndorsementSearch.wsdl"  xmlns:es="http://www.snowboard-info.com/EndorsementSearch.wsdl"  xmlns:esxsd="http://schemas.snowboard-info.com/EndorsementSearch.xsd"  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+<wsdl:definitions name="EndorsementSearch"
+  xmlns:ns="http://namespaces.snowboard-info.com"
+  targetNamespace="http://namespaces.snowboard-info.com"
+  xmlns:es="http://www.snowboard-info.com/EndorsementSearch.wsdl"
+  xmlns:esxsd="http://namespaces.snowboard-info.com"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+
   <!-- wsdl:types encapsulates schema definitions of communication types; here using xsd -->
   <wsdl:types>
     <!-- all type declarations are in a chunk of xsd -->
@@ -65,6 +72,9 @@
   <!-- response GetEndorsingBoarderResponse is of type GetEndorsingBoarderResponse -->
   <wsdl:message name="GetEndorsingBoarderResponse">
     <wsdl:part name="body" element="esxsd:GetEndorsingBoarderResponse"/>
+  </wsdl:message>
+  <wsdl:message name="GetEndorsingBoarderFault">
+    <wsdl:part name="body" element="esxsd:GetEndorsingBoarderFault"/>
   </wsdl:message>
   <!-- wsdl:portType describes messages in an operation -->
   <wsdl:portType name="GetEndorsingBoarderPortType">

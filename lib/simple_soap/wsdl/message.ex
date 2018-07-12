@@ -4,6 +4,7 @@ defmodule SimpleSoap.Wsdl.Message do
   alias SimpleSoap.Xml
 
   defstruct name: nil,
+            namespace: nil,
             parts: []
 
   def read(%Wsdl{doc: doc, xml_schema: xml_schema} = wsdl) do
@@ -16,7 +17,10 @@ defmodule SimpleSoap.Wsdl.Message do
     |> Enum.map(fn node -> build_message(node, wsdl) end)
   end
 
-  defp build_message(message_node, %Wsdl{xml_schema: xml_schema} = wsdl) do
+  defp build_message(
+         message_node,
+         %Wsdl{target_namespace: target_namespace, xml_schema: xml_schema} = wsdl
+       ) do
     message_name = Xml.get_attr(message_node, "name", cast_to: :atom)
 
     parts =
@@ -40,6 +44,6 @@ defmodule SimpleSoap.Wsdl.Message do
         end
       end)
 
-    %__MODULE__{name: message_name, parts: parts}
+    %__MODULE__{name: message_name, namespace: target_namespace, parts: parts}
   end
 end

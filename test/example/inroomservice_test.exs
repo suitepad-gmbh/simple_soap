@@ -2,9 +2,12 @@ defmodule Example.InroomserviceTest do
   use ExUnit.Case
 
   alias SimpleSoap.Request
+  alias SimpleSoap.Response
+  alias SimpleSoap.Wsdl
   alias SimpleSoap.Wsdl.Message
   alias SimpleSoap.Wsdl.PortType.Operation
   import WsdlTestHelper
+  import XmlBuilder
 
   test "parses checkIn request" do
     wsdl =
@@ -16,6 +19,7 @@ defmodule Example.InroomserviceTest do
     assert %Request{
              message: %Message{
                name: :checkInInput,
+               namespace: :"http://www.asahotel.com/inroomservice",
                parts: [
                  %Message.Part{
                    def: {:"http://www.asahotel.com/inroomservice", :checkIn},
@@ -66,6 +70,7 @@ defmodule Example.InroomserviceTest do
     assert %Request{
              message: %Message{
                name: :checkOutInput,
+               namespace: :"http://www.asahotel.com/inroomservice",
                parts: [
                  %Message.Part{
                    def: {:"http://www.asahotel.com/inroomservice", :checkOut},
@@ -95,5 +100,54 @@ defmodule Example.InroomserviceTest do
                :"http://www.asahotel.com/inroomservice/checkOut",
                wsdl
              )
+  end
+
+  test "builds a response" do
+    wsdl =
+      create_wsdl(
+        "InRoomService/InRoomService.wsdl",
+        xml_schema: :"http://www.w3.org/2001/XMLSchema"
+      )
+
+    request =
+      parse_request(
+        "InRoomService/checkin.xml",
+        :InRoomServiceSoapBinding,
+        :"http://www.asahotel.com/inroomservice/checkIn",
+        wsdl
+      )
+
+    assert Wsdl.build_response(
+             :output,
+             %{
+               parameters: %{
+                 checkInResult: %{
+                   success: true,
+                   error: "",
+                   loginUser: "foo",
+                   loginPwd: "bar"
+                 }
+               }
+             },
+             request,
+             wsdl
+           )
+           |> Response.to_xml() ==
+             """
+             <?xml version="1.0" encoding="UTF-8"?>
+             <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+               <SOAP-ENV:Body>
+                 <m:checkInOutput xmlns:m="http://www.asahotel.com/inroomservice">
+                   <checkInResult>
+                     <success>true</success>
+                     <error></error>
+                     <loginUser>foo</loginUser>
+                     <loginPwd>bar</loginPwd>
+                   </checkInResult>
+                 </m:checkInOutput>
+               </SOAP-ENV:Body>
+             </SOAP-ENV:Envelope>
+             """
+             |> String.trim()
   end
 end

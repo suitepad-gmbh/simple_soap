@@ -21,7 +21,8 @@ defmodule SimpleSoap.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:sweet_xml, "~> 0.6.5"}
+      {:sweet_xml, "~> 0.6.5"},
+      {:xml_builder, "~> 2.1"}
     ]
   end
 end

@@ -67,3 +67,35 @@ the SOAP operation to execute, and the parameters given with the request.
   }
 }
 ```
+
+### Building a response
+
+```elixir
+data = %{
+  parameters: %{
+    checkInResult: %{
+      success: true,
+      error: "",
+      loginUser: "foo",
+      loginPwd: "bar"
+    }
+  }
+}
+SimpleSoap.Wsdl.build_response(:output, data, request, wsdl)
+```
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+  <SOAP-ENV:Body>
+    <m:checkInOutput xmlns:m="http://www.asahotel.com/inroomservice">
+      <checkInResult>
+        <success>true</success>
+        <error></error>
+        <loginUser>foo</loginUser>
+        <loginPwd>bar</loginPwd>
+      </checkInResult>
+    </m:checkInOutput>
+  </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>
+```

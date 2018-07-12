@@ -1,7 +1,9 @@
 defmodule SimpleSoap.Wsdl.Schema.Type.Sequence do
   import SweetXml
+  import XmlBuilder
   alias SimpleSoap.Wsdl
   alias SimpleSoap.Wsdl.Helper
+  alias SimpleSoap.Wsdl.Schema
   alias SimpleSoap.Wsdl.Schema.Type.Sequence
   alias SimpleSoap.Xml
 
@@ -20,6 +22,22 @@ defmodule SimpleSoap.Wsdl.Schema.Type.Sequence do
       Enum.count(nodes) > index -> make_list(elements, nodes, index, new_result, wsdl)
       true -> new_result
     end
+  end
+
+  def build_xml(%__MODULE__{} = module, data, %Wsdl{} = wsdl) when is_list(data) do
+    Enum.map(data, fn element ->
+      build_xml(module, element, wsdl)
+    end)
+  end
+
+  def build_xml(
+        %__MODULE__{elements: elements},
+        data,
+        %Wsdl{types: %SimpleSoap.Wsdl.Types{schemas: schemas}} = wsdl
+      ) do
+    Enum.map(elements, fn {key, type} ->
+      element(key, %{}, Schema.Element.build_xml(type, Map.get(data, key), wsdl))
+    end)
   end
 
   defp map_elements([element], nodes, index, result, %Wsdl{} = wsdl) do
