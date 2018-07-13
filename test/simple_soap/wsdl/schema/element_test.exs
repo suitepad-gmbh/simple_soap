@@ -25,6 +25,14 @@ defmodule SimpleSoap.Wsdl.Schema.ElementTest do
 
     assert Element.build_xml({wsdl.xml_schema, :boolean}, 0, wsdl)
            |> generate() == "false"
+
+    {:ok, date} = Date.new(2018, 7, 14)
+
+    assert Element.build_xml({wsdl.xml_schema, :date}, date, wsdl)
+           |> generate() == "2018-07-14"
+
+    assert Element.build_xml({wsdl.xml_schema, :date}, nil, wsdl)
+           |> generate() == ""
   end
 
   test "#build_xml creates the XML for a complex 'all' type" do

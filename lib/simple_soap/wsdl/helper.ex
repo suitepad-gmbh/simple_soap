@@ -38,6 +38,9 @@ defmodule SimpleSoap.Wsdl.Helper do
       {^schema, :int} ->
         String.to_integer(Xml.text(node))
 
+      {^schema, :date} ->
+        Date.from_iso8601!(Xml.text(node))
+
       {^schema, _} ->
         new_type = {:not_found, type}
         typed_value(node, new_type, wsdl)

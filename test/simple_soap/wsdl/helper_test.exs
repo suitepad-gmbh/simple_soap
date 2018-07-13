@@ -16,6 +16,7 @@ defmodule SimpleSoap.Wsdl.HelperTest do
       <true>1</true>
       <false>0</false>
       <integer>5678</integer>
+      <date>2018-07-14</date>
       <PhoneType>
         <case1>phone</case1>
         <case2>mobile</case2>
@@ -68,6 +69,7 @@ defmodule SimpleSoap.Wsdl.HelperTest do
     assert test_value.({schema, :boolean}, ~x"values/true"e) == true
     assert test_value.({schema, :boolean}, ~x"values/false"e) == false
     assert test_value.({schema, :int}, ~x"values/integer"e) == 5678
+    assert {:ok, test_value.({schema, :date}, ~x"values/date"e)} == Date.new(2018, 7, 14)
     assert test_value.({schema, :unknown}, ~x"values/integer"e) == nil
   end
 

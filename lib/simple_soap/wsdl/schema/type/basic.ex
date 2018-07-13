@@ -1,6 +1,5 @@
 defmodule SimpleSoap.Wsdl.Schema.Type.Basic do
   require Logger
-  import XmlBuilder
 
   def build_xml({_, :string}, data, _wsdl) do
     cond do
@@ -19,6 +18,14 @@ defmodule SimpleSoap.Wsdl.Schema.Type.Basic do
 
   def build_xml({_, :int}, data, _wsdl) do
     "#{data}"
+  end
+
+  def build_xml({_, :date}, %Date{} = data, _wsdl) do
+    Date.to_iso8601(data)
+  end
+
+  def build_xml({_, :date}, _data, _wsdl) do
+    ""
   end
 
   def build_xml(type, data, _wsdl) do

@@ -7,7 +7,6 @@ defmodule Example.InroomserviceTest do
   alias SimpleSoap.Wsdl.Message
   alias SimpleSoap.Wsdl.PortType.Operation
   import WsdlTestHelper
-  import XmlBuilder
 
   test "parses checkIn request" do
     wsdl =
