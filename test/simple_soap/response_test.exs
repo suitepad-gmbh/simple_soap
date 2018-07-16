@@ -21,9 +21,9 @@ defmodule SimpleSoap.ResponseTest do
              <?xml version="1.0" encoding="UTF-8"?>
              <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
                <SOAP-ENV:Body>
-                 <m:GetEndorsingBoarderResponse xmlns:m="http://namespaces.snowboard-info.com">
+                 <m:GetEndorsingBoarderResponseElement xmlns:m="http://namespaces.snowboard-info.com">
                    <endorsingBoarder>Chris Englesmann</endorsingBoarder>
-                 </m:GetEndorsingBoarderResponse>
+                 </m:GetEndorsingBoarderResponseElement>
                </SOAP-ENV:Body>
              </SOAP-ENV:Envelope>
              """
@@ -47,9 +47,9 @@ defmodule SimpleSoap.ResponseTest do
              <?xml version="1.0" encoding="UTF-8"?>
              <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
                <SOAP-ENV:Body>
-                 <m:GetEndorsingBoarderFault xmlns:m="http://namespaces.snowboard-info.com">
+                 <m:GetEndorsingBoarderFaultElement xmlns:m="http://namespaces.snowboard-info.com">
                    <errorMessage>Some error message</errorMessage>
-                 </m:GetEndorsingBoarderFault>
+                 </m:GetEndorsingBoarderFaultElement>
                </SOAP-ENV:Body>
              </SOAP-ENV:Envelope>
              """

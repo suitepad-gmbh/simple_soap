@@ -136,14 +136,14 @@ defmodule Example.InroomserviceTest do
              <?xml version="1.0" encoding="UTF-8"?>
              <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
                <SOAP-ENV:Body>
-                 <m:checkInOutput xmlns:m="http://www.asahotel.com/inroomservice">
+                 <m:checkInResponse xmlns:m="http://www.asahotel.com/inroomservice">
                    <checkInResult>
                      <success>true</success>
                      <error></error>
                      <loginUser>foo</loginUser>
                      <loginPwd>bar</loginPwd>
                    </checkInResult>
-                 </m:checkInOutput>
+                 </m:checkInResponse>
                </SOAP-ENV:Body>
              </SOAP-ENV:Envelope>
              """

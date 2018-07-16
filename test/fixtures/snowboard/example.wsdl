@@ -46,16 +46,16 @@
           </xsd:sequence>
         </xsd:complexType>
       </xsd:element>
-      <!-- xsd definition: GetEndorsingBoarderResponse [... endorsingBoarder string ...] -->
-      <xsd:element name="GetEndorsingBoarderResponse">
+      <!-- xsd definition: GetEndorsingBoarderResponseElement [... endorsingBoarder string ...] -->
+      <xsd:element name="GetEndorsingBoarderResponseElement">
         <xsd:complexType>
           <xsd:all>
             <xsd:element name="endorsingBoarder" type="string"/>
           </xsd:all>
         </xsd:complexType>
       </xsd:element>
-      <!-- xsd definition: GetEndorsingBoarderFault [... errorMessage string ...] -->
-      <xsd:element name="GetEndorsingBoarderFault">
+      <!-- xsd definition: GetEndorsingBoarderFaultElement [... errorMessage string ...] -->
+      <xsd:element name="GetEndorsingBoarderFaultElement">
         <xsd:complexType>
           <xsd:all>
             <xsd:element name="errorMessage" type="string"/>
@@ -71,10 +71,10 @@
   </wsdl:message>
   <!-- response GetEndorsingBoarderResponse is of type GetEndorsingBoarderResponse -->
   <wsdl:message name="GetEndorsingBoarderResponse">
-    <wsdl:part name="body" element="esxsd:GetEndorsingBoarderResponse"/>
+    <wsdl:part name="body" element="esxsd:GetEndorsingBoarderResponseElement"/>
   </wsdl:message>
   <wsdl:message name="GetEndorsingBoarderFault">
-    <wsdl:part name="body" element="esxsd:GetEndorsingBoarderFault"/>
+    <wsdl:part name="body" element="esxsd:GetEndorsingBoarderFaultElement"/>
   </wsdl:message>
   <!-- wsdl:portType describes messages in an operation -->
   <wsdl:portType name="GetEndorsingBoarderPortType">

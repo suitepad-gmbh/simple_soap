@@ -12,7 +12,7 @@ defmodule Example.SnowboardTest do
     assert %Wsdl.Schema{items: items} = schema
     assert items[:PhoneType] == {:"http://www.w3.org/1999/XMLSchema", :string}
     assert %Wsdl.Schema.Type.Sequence{} = items[:Phone]
-    assert %Wsdl.Schema.Type.All{} = items[:GetEndorsingBoarderResponse]
+    assert %Wsdl.Schema.Type.All{} = items[:GetEndorsingBoarderResponseElement]
   end
 
   test "can make a GetEndorsingBoarder request" do

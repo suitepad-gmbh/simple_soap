@@ -32,22 +32,24 @@ defmodule SimpleSoap.Response do
       :"SOAP-ENV:Envelope",
       %{"xmlns:SOAP-ENV": "http://schemas.xmlsoap.org/soap/envelope/"},
       [
-        element(:"SOAP-ENV:Body", %{}, [body])
+        element(:"SOAP-ENV:Body", %{}, body)
       ]
     )
   end
 
-  defp response_body(%Message{name: name, namespace: namespace, parts: parts}, data, wsdl) do
-    children =
-      Enum.map(parts, fn part ->
-        response_body(part, Map.get(data, part.name), wsdl)
-      end)
-
-    element(:"m:#{name}", %{"xmlns:m": namespace}, children)
+  defp response_body(%Message{parts: parts}, data, wsdl) do
+    Enum.map(parts, fn part ->
+      response_body(part, Map.get(data, part.name), wsdl)
+    end)
   end
 
-  defp response_body(%Message.Part{def: type, kind: :element}, data, %Wsdl{} = wsdl) do
-    Schema.Element.build_xml(type, data, wsdl)
+  defp response_body(
+         %Message.Part{def: {namespace, name} = type, kind: :element},
+         data,
+         %Wsdl{} = wsdl
+       ) do
+    child = Schema.Element.build_xml(type, data, wsdl)
+    element(:"m:#{name}", %{"xmlns:m": namespace}, [child])
   end
 
   defp output_message(%Operation{output: {_ns, message_name}}, :output, %Wsdl{messages: messages}) do
