@@ -2,6 +2,13 @@
 
 A library for parsing and building SOAP bodies based on a WSDL file, written in Elixir.
 
+## WARNING
+
+**This library is not production ready and has some fundamental issues**
+
+Please check the [issues](https://github.com/suitepad-gmbh/simple_soap/issues)
+for more details.
+
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
