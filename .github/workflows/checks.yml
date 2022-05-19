@@ -1,0 +1,32 @@
+name: Checks
+
+on: push
+
+jobs:
+  format:
+    name: Check formatting
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: '24.3'
+          elixir-version: '1.13'
+          experimental-otp: true
+      - run: mix deps.get
+      - run: mix format --check-formatted
+
+  test:
+    runs-on: ubuntu-latest
+    name:  Run tests
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-elixir@v1
+        with:
+          otp-version: '24.3'
+          elixir-version: '1.13'
+          experimental-otp: true
+      - run: mix deps.get
+      - run: mix test
