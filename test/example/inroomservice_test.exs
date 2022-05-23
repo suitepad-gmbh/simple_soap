@@ -52,7 +52,7 @@ defmodule Example.InroomserviceTest do
              }
            } =
              parse_request(
-               "InRoomService/checkin.xml",
+               "InRoomService/checkIn.xml",
                :InRoomServiceSoapBinding,
                :"http://www.asahotel.com/inroomservice/checkIn",
                wsdl
@@ -94,7 +94,7 @@ defmodule Example.InroomserviceTest do
              }
            } ==
              parse_request(
-               "InRoomService/checkout.xml",
+               "InRoomService/checkOut.xml",
                :InRoomServiceSoapBinding,
                :"http://www.asahotel.com/inroomservice/checkOut",
                wsdl
@@ -110,7 +110,7 @@ defmodule Example.InroomserviceTest do
 
     request =
       parse_request(
-        "InRoomService/checkin.xml",
+        "InRoomService/checkIn.xml",
         :InRoomServiceSoapBinding,
         :"http://www.asahotel.com/inroomservice/checkIn",
         wsdl

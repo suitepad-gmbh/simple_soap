@@ -1,4 +1,4 @@
 %{
-  "sweet_xml": {:hex, :sweet_xml, "0.6.5", "dd9cde443212b505d1b5f9758feb2000e66a14d3c449f04c572f3048c66e6697", [:mix], [], "hexpm"},
-  "xml_builder": {:hex, :xml_builder, "2.1.0", "c249d5339427c13cae11e9d9d0e8b40d25d228b9ecc54029f24017385e60280b", [:mix], [], "hexpm"},
+  "sweet_xml": {:hex, :sweet_xml, "0.7.3", "debb256781c75ff6a8c5cbf7981146312b66f044a2898f453709a53e5031b45b", [:mix], [], "hexpm", "e110c867a1b3fe74bfc7dd9893aa851f0eed5518d0d7cad76d7baafd30e4f5ba"},
+  "xml_builder": {:hex, :xml_builder, "2.2.0", "cc5f1eeefcfcde6e90a9b77fb6c490a20bc1b856a7010ce6396f6da9719cbbab", [:mix], [], "hexpm", "9d66d52fb917565d358166a4314078d39ef04d552904de96f8e73f68f64a62c9"},
 }
